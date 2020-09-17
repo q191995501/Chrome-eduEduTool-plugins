@@ -1,0 +1,50 @@
+{
+	"manifest_version": 2,
+	"name": "  ",
+	"version": "0.1",
+	"description": "Easy submission tool",
+	"author": "filepe",
+	"icons":
+	{
+		"48": "images/logo.png",
+		"128": "images/logo.png"
+	},
+	"browser_action": 
+	{
+		"default_icon": "images/logo.png",
+		"default_title": "MeiYouAd",
+		"default_popup": "popup.html"
+	},
+	"background":{
+		"scripts":[
+			"scripts/background.js"
+		],
+		"persistent": true
+	},
+	  "permissions": [
+	    "declarativeContent",
+	    "storage",
+	    "webNavigation",
+	    "tabs",
+	    "notifications",
+	    "http://*/",
+	    "https://*/",
+	    "webRequest",
+	    "webRequestBlocking"
+	  ],
+	"content_scripts": 
+	[
+		{
+			"matches": ["https://*/*/doview/*","https://*/*/dostart/*","https://*/*/doexam/*"],
+			"run_at": "document_end",
+			"js": [
+				"scripts/jquery-1.11.3.min.js",
+				"scripts/content-script.js"],
+			"all_frames": true
+		}
+	],
+	"web_accessible_resources": [
+		"scripts/jquery-1.11.3.min.js",
+		"scripts/main.js"
+	]
+}
