@@ -42,8 +42,8 @@ view=function(client){
     						}
     				
 							window.postMessage({"code":102,"data":gloabData})
-							self.Message('网页加载完成', 'err');
-							setTimeout(function(){ self.CloseDialog() }, 400);
+			                self.Message('网页加载完成，开始嘿嘿嘿吧', 'err');
+					        setTimeout(function(){ self.CloseDialog() }, 3000);
 							
     					}else{
     						self.Message('获取试卷答案失败，请重试！', 'err');
@@ -73,34 +73,27 @@ exam=function (client) {
 			var msg = '当前操作失败，请检查您的网络。点击<a href="' + window.location + '">这里</a>刷新。';
 			self.Message(msg, 'err');
 		});
-		self.submitBtn.on('click',function(){
-			self.Submit();
-		});
-		self._initCanSubmitTime();
+
 		
 		$.get(self.basePath + '/myanswer/list/' + self.userExamId, {}, function (data) {
 			self.inited = true;
-			function countTime() {
-				if (self.leftTime <= 0) {
-					clearInterval(self.interval);
-					self.Submit(true);
-					return;
-				}
-				self.leftTime = self.leftTime - 1000;
-				self.examingTime = self.examingTime + 1000;
-				
-				if (self.leftTime < 0) {
-					self.leftTime = 0;
-				}
-				var m = parseInt(self.leftTime / 60000);
-				var s = parseInt((self.leftTime % 60000) / 1000);
-				self.leftTimeDiv.text(m + ':' + (s > 9 ? s : ('0' + s)));
-				if (m < 5) {
-					self.leftTimeDiv.addClass('alert');
-				}
-				// 查看是否有
-				self._checkMinSubmitTime();
-			}
+            function countTime() {
+                if (self.leftTime <= 0) {
+                    clearInterval(self.interval);
+                    self.Submit(true);
+                    return;
+                }
+                self.leftTime = self.leftTime - 1000;
+                if (self.leftTime < 0) {
+                    self.leftTime = 0;
+                }
+                var m = parseInt(self.leftTime / 60000);
+                var s = parseInt((self.leftTime % 60000) / 1000);
+                self.leftTimeDiv.text(m + ':' + (s > 9 ? s : ('0' + s)));
+                if (m < 5) {
+                    self.leftTimeDiv.addClass('alert');
+                }
+            }
 			if (data && data.success) {
 				let paperAnswers=data.answers
 				let selfdoc=$(".ui-paper-iframe")[0].contentWindow.document
@@ -116,8 +109,8 @@ exam=function (client) {
 				
 				}
 				self.client.__OnInited(paperAnswers);
-				self.Message('网页加载完成', 'err');
-				setTimeout(function(){ self.CloseDialog() }, 400);
+                self.Message('网页加载完成，开始嘿嘿嘿吧', 'err');
+                setTimeout(function(){ self.CloseDialog() }, 3000);
 			} else {
 				self.Message('获取上次的答案失败，您需要重新进行答卷！', 'err');
 				self.client__OnInited(null);
@@ -172,8 +165,8 @@ doexam=function(client){
 					
 					}
 					self.client.__OnInited(data.answers);
-					self.Message('网页加载完成', 'err');
-					setTimeout(function(){ self.CloseDialog() }, 400);
+					self.Message('网页加载完成，开始嘿嘿嘿吧', 'err');
+					setTimeout(function(){ self.CloseDialog() }, 3000);
 				}else{
 					/*里面有初使化问答题的脚本，需要执行一次*/
 					self.client.__OnInited(null);
@@ -216,7 +209,7 @@ function init(){
 				
 		 };
 	}else if(document.URL.indexOf("doview")!=-1){
-		ExamObj.prototype.Init=view
+        ExamObj.prototype.Init=view
 	}
 	else if(document.URL.indexOf("doexam")!=-1){
 		ExamObj.prototype.Init=doexam
